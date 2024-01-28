@@ -23,6 +23,8 @@ spec:
         role: login
     
     spec:
+      nodeSelector:
+        type: ng1
       containers:
       - name: poc-dock-nginx
         image: sirajbagwan/login:latest
