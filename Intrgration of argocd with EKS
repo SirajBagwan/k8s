@@ -1,0 +1,15 @@
+# Create namespace for argocd
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
+
+# For exposing argocd server using alb
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+# For Getting ALB Accesspoint
+kubectl get svc argocd-server -n argocd -o json | jq --raw-output '.status.loadBalancer.ingress[0].hostname'
+
+# here default username will be admin to extract password for admin
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# For enable Cli for argo cd can follow
+https://archive.eksworkshop.com/intermediate/290_argocd/install/
