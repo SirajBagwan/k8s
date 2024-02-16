@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-signup
+  namespace: poc
+  labels:
+    role: signup
+  
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 33%
+  selector:
+    matchLabels:
+      role: signup
+  
+  template:
+    metadata:
+      labels:
+        role: signup
+    
+    spec:
+      nodeSelector:
+        type: ng1
+      containers:
+      - name: poc-dock-nginx
+        image: sirajbagwan/signup:latest
+      
+        ports: 
+          - containerPort: 80
+        imagePullPolicy: Always
+
+  # if you have any environment variables you can define in env:
