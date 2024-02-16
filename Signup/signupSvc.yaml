@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: signupsvc
+  namespace: poc
+
+spec:
+  selector:
+    role: signup
+  ports:
+    - protocol: TCP
+      port: 80
+  type: ClusterIP
